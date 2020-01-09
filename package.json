@@ -8,11 +8,13 @@
 		"test": "env NODE_ENV=test mocha --require test/setup.js",
 		"dev": "nodemon src/server.js",
 		"start": "node src/server.js",
-		"predeploy": "npm audit",
+		"predeploy": "yarn audit && yarn migrate:production",
 		"deploy": "git push heroku master",
 		"migrate": "postgrator --config postgrator.config.js",
 		"migrate:test": "env NODE_ENV=test yarn migrate",
-		"db:seed": "psql -U dunder_mifflin -d blogful -f ./seeds/seed.blogful_articles.sql"
+		"migrate:production": "env SSL=true DATABASE_URL=$(heroku config:get DATABASE_URL) yarn migrate",
+		"db:seed": "psql -U dunder_mifflin -d blogful -f ./seeds/seed.blogful_articles.sql",
+		"db:seed:production": "psql $(heroku config:get DATABASE_URL) -f ./seeds/seed.blogful_articles.sql"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",

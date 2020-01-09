@@ -1,3 +1,5 @@
+TRUNCATE blogful_articles RESTART IDENTITY CASCADE;
+
 INSERT INTO blogful_articles (title, style, content)
 VALUES
   ('First post!', 'Interview',
